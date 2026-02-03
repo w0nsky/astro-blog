@@ -1,0 +1,82 @@
+---
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+
+import "../styles/global.css";
+const pageTitle = "About";
+
+const identity = {
+  firstName: "Kamil",
+  lastName: "Kaźmierczak",
+  country: "Poland",
+  occupation: "Web Developer",
+  hobbies: ["fishing", "games", "motorsport"],
+};
+
+const skills = [
+  "HTML",
+  "CSS",
+  "JavaScript",
+  "Python",
+  "Django",
+  "PHP",
+  "Wordpress",
+];
+
+const happy = true;
+const finished = false;
+const goal = 3;
+
+const skillColor = "crimson";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <style define:vars={{ skillColor }}>
+      h1 {
+        font-size: 1.5rem;
+        color: purple;
+      }
+      .skill {
+        font-size: 1rem;
+        color: var(--skillColor);
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+      <Navigation />
+      <div class="container">
+        <h1>{pageTitle}</h1>
+        <p>Few facts about me:</p>
+        <ul>
+          <li>My name is {identity.firstName} {identity.lastName}</li>
+          <li>
+            I live in {identity.country} and I work as {identity.occupation}.
+          </li>
+          <li>My hobbies are:</li>
+          {identity.hobbies.map((hobby) => <li>{hobby}</li>)}
+        </ul>
+        <p>My skills are:</p>
+        <ul>
+          {skills.map((skill) => <li class="skill">{skill}</li>)}
+        </ul>
+        {happy && <p>Im happy !</p>}
+        {finished && <p>I finished this tutorial !</p>}
+        {
+          goal === 3 ? (
+            <p>My goal is to finish in 3 days</p>
+          ) : (
+            <p>My goal is not 3 days</p>
+          )
+        }
+    </div>
+    <Footer />
+  </body>
+</html>

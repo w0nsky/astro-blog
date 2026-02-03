@@ -1,0 +1,26 @@
+---
+
+const links = ["about","blog"]
+
+---
+<style>
+  .header{
+    border: 2px solid black;
+  }
+  .header ul{
+    display: flex;
+    list-style: none;
+    gap:20px;
+    align-items:center;
+    justify-content: center;
+    padding: 0;
+  }
+</style>
+<div class="header">
+  <div class="container">
+    <ul>
+      <li><a href="/">Home</a></li>
+      {links.map((link) => <li><a href={"/"+link}>{link}</a></li>)}
+    </ul>
+  </div>
+</div>
