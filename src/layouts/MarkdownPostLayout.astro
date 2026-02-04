@@ -1,0 +1,55 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+const { frontmatter } = Astro.props;
+
+const transformTag = (text: string) => {
+  return text.trim().replace(/\s+/g, "_");
+};
+---
+
+<BaseLayout>
+  <div class="post">
+    <div class="post-header">
+      <div class="post-header__info">
+        <h1>{frontmatter.title}</h1>
+        <p>Written by {frontmatter.author}</p>
+        <p>Published: {frontmatter.pubDate.toString().slice(0, 10)}</p>
+        <div class="tags">
+          Tags: {
+            frontmatter.tags.map((tag: string) => (
+              <span>#{transformTag(tag)}</span>
+            ))
+          }
+        </div>
+        <p>{frontmatter.description}</p>
+      </div>
+      <div class="post-header__image">
+        <img src={frontmatter.image.url} alt={frontmatter.image.alt} />
+      </div>
+    </div>
+  </div>
+  <slot />
+</BaseLayout>
+
+<style>
+  .post-header{
+    padding-top: 20px;
+    display: flex;
+    gap:50px;
+  }
+  .post-header__info,
+  .post-header__image {
+    width: 50%;
+  }
+
+  .post-header__image img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .tags {
+    display: flex;
+    gap: 10px;
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+import BlogGrid from '../components/BlogGrid.astro';
+import BlogPost from '../components/BlogPost.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageLayout from '../layouts/PageLayout.astro';
+
+const allPosts = Object.values(import.meta.glob('./posts/*.md', { eager: true }));
+
+const pageTitle = "Blog Archive";
+---
+<BaseLayout>
+	<PageLayout pageTitle = {pageTitle}>
+		<p>There'll be blogposts!</p>
+		<BlogGrid>
+		{allPosts.map((post:any) =>
+			<BlogPost
+				url={post.url}
+				imageUrl={post.frontmatter.image.url}
+				imageAlt={post.frontmatter.image.alt}
+				pubDate={post.frontmatter.pubDate}
+				title={post.frontmatter.title}
+				description={post.frontmatter.description}
+				author={post.frontmatter.author}
+			/>
+		)}
+		</BlogGrid>
+	</PageLayout>
+</BaseLayout>
