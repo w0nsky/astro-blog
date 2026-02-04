@@ -1,26 +1,44 @@
 ---
 
-const links = ["about","blog"]
+const links = ["about","blog"];
+const {pathname} = Astro.url;
 
 ---
-<style>
-  .header{
-    border: 2px solid black;
+<ul class="nav-links" id="main-menu">
+  <li><a class={pathname === '/' ? 'active':''} href="/">Home</a></li>
+  {
+    links.map((link) => {
+      const url = "/"+link;
+      return(
+        <li><a class={pathname === url ? 'active':''} href={url}>{link}</a></li>
+      )
+    }
+    )
   }
-  .header ul{
+</ul>
+
+<style>
+  header{
+    background-color: beige;
+  }
+  ul{
     display: flex;
     list-style: none;
     gap:20px;
     align-items:center;
     justify-content: center;
     padding: 0;
+    text-transform: capitalize;
+  }
+  a{
+    transition:border-bottom 0.3s ease;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+  a:hover{
+    border-bottom: 1px #f2f2f2 solid;
+  }
+  .active{
+    border-bottom: 1px #f2f2f2 solid !important;
   }
 </style>
-<div class="header">
-  <div class="container">
-    <ul>
-      <li><a href="/">Home</a></li>
-      {links.map((link) => <li><a href={"/"+link}>{link}</a></li>)}
-    </ul>
-  </div>
-</div>
