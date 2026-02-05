@@ -3,9 +3,7 @@ import BaseLayout from "./BaseLayout.astro";
 
 const { frontmatter } = Astro.props;
 
-const transformTag = (text: string) => {
-  return text.trim().replace(/\s+/g, "_");
-};
+
 ---
 
 <BaseLayout>
@@ -18,7 +16,7 @@ const transformTag = (text: string) => {
         <div class="tags">
           Tags: {
             frontmatter.tags.map((tag: string) => (
-              <span>#{transformTag(tag)}</span>
+              <a href={`/tags/${tag}`}>{tag}</a>
             ))
           }
         </div>

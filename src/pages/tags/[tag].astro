@@ -1,0 +1,60 @@
+---
+import BlogGrid from "../../components/BlogGrid.astro";
+import BlogPost from "../../components/BlogPost.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
+
+export async function getStaticPaths() {
+  const allPosts = Object.values(import.meta.glob('../posts/*.md',{eager:true}));
+  const uniqueTags = [...new Set(allPosts.map((post:any)=>post.frontmatter.tags).flat())];
+  return uniqueTags.map((tag)=>{
+    const filteredPosts = allPosts.filter((post:any)=>post.frontmatter.tags.includes(tag));
+    return{
+      params:{tag},
+      props:{posts:filteredPosts}
+    }
+  })
+}
+
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+const allPosts = Object.values(import.meta.glob('../posts/*.md',{eager:true}));
+const uniqueTags = [...new Set(
+  allPosts
+    .filter(post=>post.frontmatter.tags)
+    .flatMap(post=>post.frontmatter.tags)
+)]
+
+---
+<BaseLayout>
+  <PageLayout pageTite = {tag}>
+    <ul>
+      {uniqueTags.map((tag)=><a href={tag}>#{tag}</a>)}
+    </ul>
+    <p>Post tagged with {tag}</p>
+      <BlogGrid>
+      { posts.map(
+        (post:any) =>
+          <BlogPost
+          url={post.url}
+          author={post.frontmatter.author}
+          imageUrl={post.frontmatter.image.url}
+          imageAlt={post.frontmatter.image.alt}
+          pubDate={post.frontmatter.pubDate}
+          title={post.frontmatter.title}
+          description={post.frontmatter.description} />
+        )
+      }
+      </BlogGrid>
+  </PageLayout>
+</BaseLayout>
+
+<style>
+  ul{
+    display: flex;
+    gap:20px;
+    text-transform: uppercase;
+    padding: 0;
+  }
+</style>
